@@ -30,21 +30,22 @@ class Provider:
         provider = requests.get(provider_url + NEWSAPI_KEY)
         provider_data = provider.json()
 
-        print(provider_data)
-
         self.status = provider_data["status"]
+        try:
+            for article in provider_data["articles"]:
+                description = article["description"]
+                title = article["title"]
+                published_at = article["publishedAt"]
+                author = article["author"]
+                url = article["url"]
+                url_to_image = article["urlToImage"]
 
-        for article in provider_data["articles"]:
-            description = article["description"]
-            title = article["title"]
-            published_at = article["publishedAt"]
-            author = article["author"]
-            url = article["url"]
-            url_to_image = article["urlToImage"]
+                new_article = Article(author, description, title, url, url_to_image, published_at)
+                self.articles.append(new_article)
+        except Exception:
+            pass
 
-            new_article = Article(author, description, title, url, url_to_image, published_at)
-            self.articles.append(new_article)
-
+            
     def printarticles(self):
         for article in self.articles:
             print (article.description )

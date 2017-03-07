@@ -1,44 +1,39 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 import requests, json
-from classes import Provider
+from classes import Provider, Article
 
+article_index = {}
 
-cnn = Provider("cnn", "top")
-cnn.getarticles()
-cnn.printarticles()
+def getproviders():
+    sources_url = "https://newsapi.org/v1/sources?language=en&country=us"
+    source = requests.get(sources_url)
+    source_data = source.json()
+    for source in source_data["sources"]:
+        provider_id = source["id"]
+        new_provider = Provider(provider_id, "top")
+        new_provider.getarticles()
+        article_index[new_provider.source] = new_provider.articles
+
+getproviders()
 
 
 """
-#Returns json containing status/source/sort/articles
-def getjson():
-    #CNN
-    cnn_url = "https://newsapi.org/v1/articles?source=cnn&sortBy=top&apiKey="
-    cnn = requests.get(cnn_url + news_key)
-    cnn_data = cnn.json()
-
-    #wsj
-    wsj_url = "https://newsapi.org/v1/articles?source=the-wall-street-journal&sortBy=top&apiKey="
-    wsj = requests.get(wsj_url + news_key)
-    wsj_data = wsj.json()
-
-    #AP
-    ap_url = "https://newsapi.org/v1/articles?source=associated-press&sortBy=top&apiKey="
-    ap = requests.get(ap_url + news_key)
-    ap_data = ap.json()
-
-    return [cnn_data, wsj_data, ap_data]
-
-def gettext():
-    news_response = getjson()
-    cnn_article_text = []
-    ap_article_text = []
-    wsj_article_text = []
-
-    for jsonbody in news_response:
-        for article_details in jsonbody["articles"]:
-            print (article_details["description"] + '\n')
-
-
-
-gettext()
+for provider in providers:
+    print(provider.source)
+    provider.getarticles()
+    if (provider.articles):
+        for article in provider.articles:
+            print(article.description)
+            print('\n')
+        print("#########################")
 """
+
+times_string = article_index["time"][1].description
+wsj_string = article_index["the-wall-street-journal"][3].description
+nyt_string = article_index["the-new-york-times"][1].description
+
+vect = TfidfVectorizer(min_df=1)
+tfidf = vect.fit_transform([times_string,
+                             wsj_string,
+                             nyt_string])
+print((tfidf * tfidf.T).A)
