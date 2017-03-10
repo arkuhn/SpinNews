@@ -1,0 +1,33 @@
+
+
+* Program flow/roadmap  *
+*************************
+
+#Query available news sources
+
+#Query available trending articles 
+
+    ->word2vec + wikidump || Train a politi
+#Vectorize articles or article descriptions
+    ->word2vec + wikidump || Train a political word vectorizer?
+    ->doc2vec/sentence2vec. Cosine aggregation of deep featured words
+    ->Tree-LSTM deep sentence learning
+    #Recognize "stories"
+        ->One story across many sites
+    #Extract stories
+    
+#Analysis of stories
+    ->Train a NN to predict article characteristics  
+    #Sentiment prediction and analysis
+        ->XYZ News was predicted to respond with a 'Mostly Positive' sentiment
+    #Bias prediction and analysis
+    
+#Web front end ???
+
+
+------
+What is bias?
+    -Sentiment?
+    -Emotional language?
+    -adjective vs noun 
+    -?
