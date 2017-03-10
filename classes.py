@@ -33,7 +33,10 @@ class Provider:
         self.status = provider_data["status"]
         try:
             for article in provider_data["articles"]:
-                description = article["description"]
+                if article["description"] == None:
+                    description = ""
+                else:
+                    description = article["description"]
                 title = article["title"]
                 published_at = article["publishedAt"]
                 author = article["author"]

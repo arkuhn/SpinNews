@@ -1,5 +1,4 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-import requests, json
+import requests
 from classes import Provider, Article
 
 article_index = {}
@@ -17,23 +16,8 @@ def getproviders():
 getproviders()
 
 
-"""
-for provider in providers:
-    print(provider.source)
-    provider.getarticles()
-    if (provider.articles):
-        for article in provider.articles:
-            print(article.description)
-            print('\n')
-        print("#########################")
-"""
-
-times_string = article_index["time"][1].description
-wsj_string = article_index["the-wall-street-journal"][3].description
-nyt_string = article_index["the-new-york-times"][1].description
-
-vect = TfidfVectorizer(min_df=1)
-tfidf = vect.fit_transform([times_string,
-                             wsj_string,
-                             nyt_string])
-print((tfidf * tfidf.T).A)
+for provider in article_index:
+    print("Provider: " + provider + '\n')
+    for article in article_index[provider]:
+        print("Article: " + article.description + '\n')
+    print("#########################\n")
